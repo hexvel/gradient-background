@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageColor
-from typing import Tuple, Union, Literal
+from typing import tuple, Union, Literal
 
-Color = Union[str, Tuple[int, int, int], Tuple[int, int, int, int]]
+Color = Union[str, tuple[int, int, int], tuple[int, int, int, int]]
 
 
 class GradientBackgroundLayer:
@@ -25,8 +25,8 @@ class GradientBackgroundLayer:
         self,
         width: int,
         height: int,
-        from_color: Tuple[int, int, int, int],
-        to_color: Tuple[int, int, int, int],
+        from_color: tuple[int, int, int, int],
+        to_color: tuple[int, int, int, int],
         direction: str,
     ) -> Image.Image:
         gradient = Image.new("RGBA", (width, height))
@@ -57,15 +57,15 @@ class GradientBackgroundLayer:
 
     def _blend_colors(
         self,
-        from_color: Tuple[int, int, int, int],
-        to_color: Tuple[int, int, int, int],
+        from_color: tuple[int, int, int, int],
+        to_color: tuple[int, int, int, int],
         blend: float,
-    ) -> Tuple[int, int, int, int]:
+    ) -> tuple[int, int, int, int]:
         return tuple(
             int(fc + (tc - fc) * blend) for fc, tc in zip(from_color, to_color)
         )
 
-    def _parse_color(self, color: Color) -> Tuple[int, int, int, int]:
+    def _parse_color(self, color: Color) -> tuple[int, int, int, int]:
         if isinstance(color, str):
             return ImageColor.getrgb(color) + (255,)
         elif len(color) == 3:
